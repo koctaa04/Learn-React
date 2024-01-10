@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Counter</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        function MyApp() {
+            const [count, setCount] = React.useState(0);
+            
+            function decrement() {
+                setCount(count - 1);
+            }
+
+            function increment() {
+                setCount(count + 1);
+            }
+
+            function reset() {
+                setCount(0);
+            }
+
+            return (
+                <>
+                <Button text={'-'} onClick={decrement} counter={count}/>
+                <MyCounter counter={count} />
+                <Button text={'+'} onClick={increment} counter={count}/>
+                <Button text={'Reset!'} onClick={reset} counter={count} />
+                </>
+            );
+        };
+
+        function MyCounter({counter}) {
+        if (counter === 10) {
+                alert('Done!');
+                
+            }
+        return (
+          <span style={{ margin: 20 }}>{counter}</span>
+        )
+      }
+        
+        function Button({text, onClick, counter}) {
+            const disabled = (text != '+' && counter === 0) ? true : false || (text == '+' && counter === 10) ? true : false;
+            const myStyle = (text !== 'Reset!') ? {} : {margin: 20, display: 'block'};
+            return (
+                <button onClick={onClick} style={myStyle} disabled={disabled}>
+                    {text}
+                </button>
+            );
+            
+        }
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+        root.render(<MyApp />);
+
+    </script>
+</body>
+</html>

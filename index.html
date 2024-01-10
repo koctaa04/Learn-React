@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+    
+      function MyApp() {
+        return (
+          <div>
+            <Header />
+            <Header name="KERR"/>
+            <Header name="REK"/>
+            <List/>
+          </div>
+        );
+      }
+      
+      function Header({name}) {
+        return(
+          <h1>Hello, {name? name : 'Gaiss'}!🚀</h1>
+        )
+      }
+
+      function List() {
+        const lists = ['item 1', 'item 2', 'item 3'];
+        return(
+            <ul>{
+              lists.map((list) => (
+                <li key={list}>{list}</li>
+            ))}
+            </ul>
+        )
+      }
+
+      const container = document.getElementById('root');
+      const root = ReactDOM.createRoot(container);
+      root.render(<MyApp />);
+
+    </script>
+  </body>
+</html>
