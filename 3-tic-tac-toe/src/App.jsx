@@ -15,17 +15,72 @@ function Square({value, onSquareClick}) {
     </>
   )
 }
-export default function Board() {
-  const [squares, setSquares] = useState(Array(9).fill(null));
-  const [xIsNext, setXIsNext] = useState(true);
+
+export default function App() {
+  // const [xIsNext, setXIsNext] = useState(true);
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [currentMove, setCurrentMove] = useState(0);
+  const xIsNext = currentMove % 2 === 0;
+  const currentSquares = history[currentMove];
+
+  function jumpTo(move) {
+    setCurrentMove(move);
+    // setXIsNext(move % 2 === 0);
+    
+  }
+
+  function handlePlay(nextSquares) {
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
+    // setXIsNext(!xIsNext);
+    // setHistory([...history, nextSquares]);
+    // setXIsNext(!xIsNext);
+  }
+  
+
+  const moves = history.map((squares, move) => {
+    let description;
+    if (move > 0) {
+      description = 'Go to move #' + move;
+    } else {
+      description = 'Go to game start';
+    }
+
+    return (
+      <li key={move}>
+        <button className='move' onClick={() => jumpTo(move)}>{description}</button>
+      </li>
+    );
+  });
+  return (
+    <div className="game">
+      <div className="game-board">
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+      </div>
+      <div className="game-info">
+        <div>{/* status */}</div>
+        <ol>{moves}</ol>
+      </div>
+    </div>
+  )
+}
+
+// eslint-disable-next-line react/prop-types
+function Board({xIsNext, squares, onPlay}) {
+  // const [squares, setSquares] = useState(Array(9).fill(null));
+  // const [xIsNext, setXIsNext] = useState(true);
 
   function handleClick(i) {    
     if (squares[i] || calculateWinner(squares)) return;
 
+    // eslint-disable-next-line react/prop-types
     const newSquares = squares.slice();
     newSquares[i] = xIsNext ? 'X' : 'O';
-    setSquares(newSquares);
-    setXIsNext(!xIsNext);
+    // setSquares(newSquares);
+    // setXIsNext(!xIsNext);
+
+    onPlay(newSquares);
 
     // if (newSquares[i] ) {
     //   newSquares[i] = null;
@@ -34,7 +89,7 @@ export default function Board() {
     // }
     //   setSquares(newSquares);
   }
-
+  
   const winner = calculateWinner(squares);
     // console.log(winner);
     let status;
@@ -43,7 +98,6 @@ export default function Board() {
     } else {
       status = 'Next player: ' + (xIsNext ? 'X' : 'O');
     }
-    
   return (
     <>
     <div className="status">{status}</div>

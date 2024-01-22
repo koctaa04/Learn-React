@@ -5,11 +5,22 @@ body{
   font-family: sans-serif;
   margin: 20px;
   padding: 0;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1.5;
+  color: #333;
+  background-color: #f5f5f5;
+}
+
+.move{
+  margin-bottom: 10px;
+  font-size: 20px;
+  padding: 5px;
 }
 
 .square {
-  width: 35px;
-  height: 35px;
+  width: 100px;
+  height: 100px;
   background-color: antiquewhite;
   cursor: pointer;
 }
@@ -17,10 +28,14 @@ body{
 .board{
   display: flex;
   flex-wrap: wrap;
-  width: 105px;
-  height: 105px;
+  width: 300px;
+  height: 300px;
 }
 
 .status {
   margin-bottom: 10px;
+}
+
+.game {
+  display: flex;
 }
